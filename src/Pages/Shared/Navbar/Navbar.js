@@ -19,16 +19,17 @@ const Navbar = () => {
                         {menuItems}
                     </ul>
                 </div>
-                <Link to='/' className="btn btn-ghost normal-case text-xl">Resell</Link>
+                <Link to='/' className="btn btn-ghost normal-case text-xl">Budget Wheels</Link>
             </div>
             <div className="navbar-center hidden lg:flex">
                 <ul className="menu menu-horizontal p-0">
                     {menuItems}
                 </ul>
             </div>
-            {/* <div className="navbar-end">
-                <a className="btn">Get started</a>
-            </div> */}
+            <div className="navbar-end">
+                <Link to='/login'><button className='btn btn-success py-1'>Log in</button></Link>
+                {/* <a className="btn">Get started</a> */}
+            </div>
         </div>
     );
 };
