@@ -1,21 +1,26 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
+import { toast } from 'react-hot-toast'
 import { AuthContext } from '../../contexts/AuthProvider';
 
 const SignUp = () => {
     const { register, handleSubmit, formState: { errors } } = useForm();
     const { createUser, updateUser } = useContext(AuthContext)
 
-    // const [signUpError, setSignUPError] = useState(''); use after implement firebase
+    const [signUpError, setSignUPError] = useState('');
 
     // sign up
     const handleSignUp = data => {
         console.log(data);
+        setSignUPError('');
+
+        // create user
         createUser(data.email, data.password)
             .then(result => {
                 const user = result.user;
                 console.log(user);
+                toast.success('Sign up successful')
 
                 // update user info
                 const userInfo = {
@@ -25,7 +30,10 @@ const SignUp = () => {
                     .then(() => { })
                     .catch(error => console.error(error))
             })
-            .catch(err => console.error(err));
+            .catch(error => {
+                console.error(error)
+                setSignUPError(error.message)
+            });
     }
 
 
@@ -70,7 +78,7 @@ const SignUp = () => {
 
                     </div>
                     <input type="submit" className='btn btn-success w-full mt-6' value="Sign Up" />
-                    {/* {signUpError && <p className='text-red-600'>{signUpError}</p>} */}
+                    {signUpError && <p className='text-red-600'>{signUpError}</p>}
                 </form>
                 <p>Already have an account? <Link className='text-green-600' to="/login">Log in</Link></p>
                 <div className='divider'>OR</div>
