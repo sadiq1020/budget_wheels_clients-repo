@@ -1,14 +1,27 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
+import { AuthContext } from '../../contexts/AuthProvider';
 
 const Login = () => {
     const { register, formState: { errors }, handleSubmit } = useForm();
+    const { signIn } = useContext(AuthContext);
+    const [loginError, setLoginError] = useState('');
 
     // const [loginError, setLoginError] = useState(''); implement after login with firebase
 
     const handleLogin = data => {
         console.log(data);
+        setLoginError('');
+        signIn(data.email, data.password)
+            .then(result => {
+                const user = result.user;
+                console.log(user);
+            })
+            .catch(error => {
+                console.error(error.message)
+                setLoginError(error.message)
+            })
     }
 
     return (
@@ -39,7 +52,7 @@ const Login = () => {
                     </div>
                     <input type="submit" className='btn btn-success w-full' value="Login" />
                     <div>
-                        {/* {loginError && <p className='text-red-600'>{loginError}</p>} */}
+                        {loginError && <p className='text-red-600'>{loginError}</p>}
                     </div>
                 </form>
                 <p>New to Budget Wheels? <Link className='text-green-600' to="/signup">Create new account</Link></p>

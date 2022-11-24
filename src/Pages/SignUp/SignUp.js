@@ -1,29 +1,50 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
+import { AuthContext } from '../../contexts/AuthProvider';
 
 const SignUp = () => {
     const { register, handleSubmit, formState: { errors } } = useForm();
+    const { createUser, updateUser } = useContext(AuthContext)
 
     // const [signUpError, setSignUPError] = useState(''); use after implement firebase
 
+    // sign up
     const handleSignUp = data => {
         console.log(data);
+        createUser(data.email, data.password)
+            .then(result => {
+                const user = result.user;
+                console.log(user);
+
+                // update user info
+                const userInfo = {
+                    displayName: data.name
+                }
+                updateUser(userInfo)
+                    .then(() => { })
+                    .catch(error => console.error(error))
+            })
+            .catch(err => console.error(err));
     }
+
+
 
     return (
         <div className='h-[800px] flex justify-center items-center'>
             <div className='w-96 p-8'>
-                <h2 className='text-xl font-bold text-center'>Sign Up</h2>
+                <h2 className='text-3xl font-bold text-center'>Sign Up</h2>
 
                 <form onSubmit={handleSubmit(handleSignUp)}>
                     <div className="form-control w-full max-w-xs">
 
-                        <select className='w-1/2 my-2 bordered border-cyan-600' {...register("category", { required: true })}>
-                            {/* <option value="">Select...</option> */}
-                            <option value="A">Buyer</option>
-                            <option value="B">Seller</option>
-                        </select>
+                        <div className='flex justify-end mt-5'>
+                            <select className='w-1/2 my-2 border-2 border-green-500 rounded' {...register("category", { required: true })}>
+                                {/* <option value="">Select...</option> */}
+                                <option value="Buyer">Buyer</option>
+                                <option value="Seller">Seller</option>
+                            </select>
+                        </div>
 
                         {/* name */}
                         <label className="label"> <span className="label-text">Name</span></label>

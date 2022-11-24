@@ -1,0 +1,20 @@
+[
+    {
+        "_id": "637f306980733a684ff5aaf4",
+        "categoryName": "Toyota",
+        "image": "male",
+        "description": "Highest Selling Cars in the Country"
+    },
+    {
+        "_id": "637f3069211ce02ec5156017",
+        "categoryName": "Nissan",
+        "image": "male",
+        "description": "Feel the Luxury within Your Budget"
+    },
+    {
+        "_id": "637f30695bcd1af05993a906",
+        "categoryName": "Honda",
+        "image": "male",
+        "description": "Make your Journey Safer"
+    }
+]

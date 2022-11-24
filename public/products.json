@@ -1,0 +1,110 @@
+[
+    {
+        "_id": "637ea1b083fb84ef1908f1e9",
+        "categoryName": "Toyota",
+        "details": [
+            {
+                "id": 0,
+                "sellersName": "Riaz",
+                "series": "Premio",
+                "picture": "Isabel",
+                "location": "Dhaka",
+                "resalePrice": 20000,
+                "originalPrice": 27000,
+                "usedYears": 5,
+                "purchaseYear": 2017,
+                "productCondition": "Good",
+                "mobileNumber": "01700641258",
+                "description": "The car is in great condition, Only 15000 miles driven. Just for regular use. No work need, buy and drive.",
+                "model": 2016
+            },
+            {
+                "id": 1,
+                "sellersName": "Sakib",
+                "series": "Corolla",
+                "picture": "Sears",
+                "location": "Dhaka",
+                "resalePrice": 15000,
+                "originalPrice": 18000,
+                "usedYears": 4,
+                "purchaseYear": 2018,
+                "productCondition": "Fair",
+                "mobileNumber": "01800454258",
+                "description": "Are you finding car within your low budget for every day use? This can be your ideal choice. Just call the number for more details.",
+                "model": 2008
+            }
+        ]
+    },
+    {
+        "_id": "637ea1b0df13dea5e6da7128",
+        "categoryName": "Nissan",
+        "details": [
+            {
+                "id": 0,
+                "sellersName": "Imrul",
+                "series": "X Trail",
+                "picture": "Beth",
+                "location": "Sylhet",
+                "resalePrice": 21000,
+                "originalPrice": 26000,
+                "usedYears": 5,
+                "purchaseYear": 2017,
+                "productCondition": "Good",
+                "mobileNumber": "01600414258",
+                "description": "Want a jeep within your low budget? I can be your best choice. Car is rarely used, in very good condition. New paint done last year.",
+                "model": 2015
+            },
+            {
+                "id": 1,
+                "sellersName": "Raju",
+                "series": "Patrol",
+                "picture": "Judith",
+                "location": "Dhaka",
+                "resalePrice": 27000,
+                "originalPrice": 33000,
+                "usedYears": 3,
+                "purchaseYear": 2019,
+                "productCondition": "Good",
+                "mobileNumber": "01900441258",
+                "description": "You you want a family luxury car, then it can be your best choice within budget. Very good condition. No need any work.",
+                "model": 2012
+            }
+        ]
+    },
+    {
+        "_id": "637ea1b01e6a9e9817dce77a",
+        "categoryName": "Honda",
+        "details": [
+            {
+                "id": 0,
+                "sellersName": "Nafiza",
+                "series": "Civic",
+                "picture": "Summers",
+                "location": "Dhaka",
+                "resalePrice": 21000,
+                "originalPrice": 24000,
+                "usedYears": 2.5,
+                "purchaseYear": 2020,
+                "productCondition": "Excellent",
+                "mobileNumber": "01720771258",
+                "description": "Great condition. You will feel like a new car. Emergency Money needed, That is why selling.",
+                "model": 2016
+            },
+            {
+                "id": 1,
+                "sellersName": "Jubayer",
+                "series": "CRV",
+                "picture": "Selena",
+                "location": "Chittagong",
+                "resalePrice": 26000,
+                "originalPrice": 31000,
+                "usedYears": 3,
+                "purchaseYear": 2019,
+                "productCondition": "Excellent",
+                "mobileNumber": "01700641028",
+                "description": "Used only for 3 years, Excellent condition. Just buy and drive. Almost like a new car.",
+                "model": 2014
+            }
+        ]
+    }
+]
