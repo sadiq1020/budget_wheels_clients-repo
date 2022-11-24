@@ -10,7 +10,6 @@ const SignUp = () => {
 
     const [signUpError, setSignUPError] = useState('');
 
-    // sign up
     const handleSignUp = data => {
         console.log(data);
         setSignUPError('');
@@ -27,13 +26,31 @@ const SignUp = () => {
                     displayName: data.name
                 }
                 updateUser(userInfo)
-                    .then(() => { })
+                    .then(() => {
+                        saveUser(data.name, data.email, data.role)
+                    })
                     .catch(error => console.error(error))
             })
             .catch(error => {
                 console.error(error)
                 setSignUPError(error.message)
             });
+    }
+
+    // save user info to db
+    const saveUser = (name, email, role) => {
+        const user = { name, email, role };
+        fetch('http://localhost:5000/users', {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify(user)
+        })
+            .then(res => res.json())
+            .then(data => {
+                console.log(data);
+            })
     }
 
 
@@ -47,7 +64,7 @@ const SignUp = () => {
                     <div className="form-control w-full max-w-xs">
 
                         <div className='flex justify-end mt-5'>
-                            <select className='w-1/2 my-2 border-2 border-green-500 rounded' {...register("category", { required: true })}>
+                            <select className='w-1/2 my-2 border-2 border-green-500 rounded' {...register("role", { required: true })}>
                                 {/* <option value="">Select...</option> */}
                                 <option value="Buyer">Buyer</option>
                                 <option value="Seller">Seller</option>

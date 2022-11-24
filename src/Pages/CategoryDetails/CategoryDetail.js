@@ -1,6 +1,6 @@
 import React from 'react';
 
-const CategoryDetail = ({ product }) => {
+const CategoryDetail = ({ product, setModalProduct }) => {
     const { categoryName, sellersName, series, picture, location, originalPrice, resalePrice, usedYears, model, purchaseYear, productCondition, mobileNumber, description } = product;
 
     return (
@@ -20,8 +20,10 @@ const CategoryDetail = ({ product }) => {
                 <p><span className='font-bold'>Purchase Year: </span>{purchaseYear}</p>
                 <p><span className='font-bold'>Location: </span>{location}</p>
                 <p><span className='font-bold'>Product Condition: </span>{productCondition}</p>
-                <div className="card-actions justify-end">
-                    <button className="btn btn-primary">Book now</button>
+                <div className="card-actions justify-center mt-4">
+                    {/* <label disabled={slots.length === 0} onClick={() => setTreatment(appointmentOption)} htmlFor="booking-modal" className="btn btn-primary text-white">Book Appointment</label> */}
+
+                    <label htmlFor="booking-modal" onClick={() => setModalProduct(product)} className="btn btn-primary text-black">Book now</label>
                 </div>
             </div>
         </div>
