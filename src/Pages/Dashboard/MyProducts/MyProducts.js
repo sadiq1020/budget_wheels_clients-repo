@@ -2,14 +2,15 @@ import React, { useContext } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { AuthContext } from '../../../contexts/AuthProvider';
 import { Link } from 'react-router-dom';
+import toast from 'react-hot-toast';
+import Loading from '../../Shared/Loading/Loading';
 
 const MyProducts = () => {
     const { user } = useContext(AuthContext)
-    console.log(user.email);
 
     const url = `http://localhost:5000/myproducts?email=${user?.email}`;
 
-    const { data: products = [] } = useQuery({
+    const { data: products, refetch, isLoading = [] } = useQuery({
         queryKey: ['products', user?.email],
         queryFn: async () => {
             const res = await fetch(url)
@@ -19,8 +20,23 @@ const MyProducts = () => {
     })
 
     // delete my product
-    const handleDeleteProduct = (id) => {
+    const handleDeleteProduct = (product) => {
+        fetch(`http://localhost:5000/myproducts/${product._id}`, {
+            method: 'DELETE',
+        })
+            .then(res => res.json())
+            .then(data => {
+                console.log(data);
+                if (data.deletedCount > 0) {
+                    toast.success(`${product.brand} ${product.series} deleted successfully!`)
+                    refetch();
+                }
+            })
+    }
 
+    // to prevent ...map error
+    if (isLoading) {
+        return <Loading></Loading>
     }
 
     return (
@@ -49,7 +65,7 @@ const MyProducts = () => {
                                     <td>{product.brand} {product.series}</td>
                                     <td>{product.series}</td>
                                     <td>
-                                        <Link to=''><button onClick={() => handleDeleteProduct(product._id)} className='btn btn-danger btn-sm'>Delete</button></Link>
+                                        <Link to=''><button onClick={() => handleDeleteProduct(product)} className='btn btn-danger btn-sm'>Delete</button></Link>
                                     </td>
                                 </tr>)
                         }
