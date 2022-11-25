@@ -1,193 +1,202 @@
 import React, { useContext } from 'react';
 import { useForm } from 'react-hook-form';
+import toast from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom';
+
+
 import { AuthContext } from '../../../contexts/AuthProvider';
 
 const AddProduct = () => {
     const { user } = useContext(AuthContext);
+    const navigate = useNavigate();
+
     const { register, handleSubmit, formState: { errors } } = useForm();
 
+    // image key
+    const imageHostKey = process.env.REACT_APP_imgbb_key;
+
     const handleAddProduct = data => {
+        const picture = data.picture[0];
+        const formData = new FormData();
+        formData.append('image', picture)
 
+        const url = `https://api.imgbb.com/1/upload?key=${imageHostKey}`
+        fetch(url, {
+            method: 'POST',
+            body: formData
+        })
+            .then(res => res.json())
+            .then(imgData => {
+                if (imgData.success) {
 
-        console.log(data);
+                    //--------Date/time----------------
+                    const currentdate = new Date();
+                    const datetime = "Date:" + currentdate.getDate() + "/"
+                        + (currentdate.getMonth() + 1) + "/"
+                        + currentdate.getFullYear() + " time:"
+                        + currentdate.getHours() + ":"
+                        + currentdate.getMinutes() + ":"
+                        + currentdate.getSeconds();
+                    //----------------------------------
+
+                    const product = {
+                        categoryName: data.categoryName,
+                        sellersName: data.sellersName,
+                        email: data.email,
+                        series: data.series,
+                        picture: imgData.data.url,
+                        location: data.location,
+                        resalePrice: data.resalePrice,
+                        originalPrice: data.originalPrice,
+                        usedYears: data.usedYears,
+                        purchaseYear: data.purchaseYear,
+                        productCondition: data.productCondition,
+                        mobileNumber: data.mobileNumber,
+                        description: data.description,
+                        model: data.model,
+                        postingDate: datetime
+                    }
+                    // console.log(product);
+
+                    // save doctors information to the database
+                    fetch('http://localhost:5000/products', {
+                        method: 'POST',
+                        headers: {
+                            'content-type': 'application/json',
+                        },
+                        body: JSON.stringify(product)
+                    })
+                        .then(res => res.json())
+                        .then(result => {
+                            console.log(result);
+                            toast.success('Successfully Added');
+                            navigate('/dashboard/myproducts')
+                        })
+                }
+            })
     }
 
+
+
     return (
-        <div className='flex justify-start mx-2'>
-            <form onSubmit={handleSubmit(handleAddProduct)}>
+        <div>
+            <h3 className='text-3xl text-success mt-16'>Please Fill up the Form</h3>
+            <div className='flex justify-start mx-2 my-10'>
 
-                {/* category */}
-                <div className="form-control w-full max-w-xs">
-                    <label className="label"> <span className="label-text">Select Your Vehicle Category</span></label>
-                    <select {...register('categoryName')} className="select select-bordered w-full max-w-xs">
-                        <option value="Toyota">Toyota</option>
-                        <option value="Nissan">Nissan</option>
-                        <option value="Honda">Honda</option>
-                    </select>
-                </div>
+                <form onSubmit={handleSubmit(handleAddProduct)}>
 
-                {/* seller name */}
-                <div className="form-control w-full max-w-xs">
-                    <label className="label"> <span className="label-text">Name</span></label>
+                    {/* category */}
+                    <div className="form-control w-full max-w-xs">
+                        <label className="label"> <span className="label-text font-bold text-green-600">Select Your Vehicle Category</span></label>
+                        <select {...register('categoryName')} className="select select-bordered w-full max-w-xs">
+                            <option value="Toyota">Toyota</option>
+                            <option value="Nissan">Nissan</option>
+                            <option value="Honda">Honda</option>
+                        </select>
+                    </div>
 
-                    <input type="text" {...register("sellersName")} defaultValue={user?.displayName} disabled className="input input-bordered w-full max-w-xs" />
-                </div>
+                    {/* seller name */}
+                    <div className="form-control w-full max-w-xs">
+                        <label className="label"> <span className="label-text font-bold text-green-600">Name</span></label>
 
-                {/* email */}
-                <div className="form-control w-full max-w-xs">
-                    <label className="label"> <span className="label-text">Email</span></label>
+                        <input type="text" {...register("sellersName")} defaultValue={user?.displayName} readOnly className="input input-bordered w-full max-w-xs" />
+                    </div>
 
-                    <input type="email" {...register("email")} defaultValue={user?.email} disabled className="input input-bordered w-full max-w-xs" />
-                </div>
+                    {/* email */}
+                    <div className="form-control w-full max-w-xs">
+                        <label className="label"> <span className="label-text font-bold text-green-600">Email</span></label>
 
-                {/* series */}
-                <div className="form-control w-full max-w-xs">
-                    <label className="label"> <span className="label-text">Vehicle Series</span></label>
-                    <input type="text" {...register("series", { required: "series is required" })} placeholder='Ex. Premio' className="input input-bordered w-full max-w-xs" />
-                    {errors.series && <p className='text-red-600'>{errors.series.message}</p>}
-                </div>
+                        <input type="email" {...register("email")} defaultValue={user?.email} readOnly className="input input-bordered w-full max-w-xs" />
+                    </div>
 
-
-
-                {/* photo upload */}
-                <div className="form-control w-full max-w-xs">
-                    <label className="label"> <span className="label-text">Photo</span></label>
-                    <input type="file" {...register("image", { required: "Photo is Required" })} className="input w-full max-w-xs" />
-
-                    {errors.image && <p className='text-red-600'>{errors.image.message}</p>}
-                </div>
-
-                {/* location */}
-                <div className="form-control w-full max-w-xs">
-                    <label className="label"> <span className="label-text">Location</span></label>
-                    <input type="text" {...register("location", { required: "Location name is required" })} className="input input-bordered w-full max-w-xs" />
-                    {errors.location && <p className='text-red-600'>{errors.location.message}</p>}
-                </div>
-
-                {/* resale price */}
-                <div className="form-control w-full max-w-xs">
-                    <label className="label"> <span className="label-text">Resale price in $</span></label>
-                    <input type="number" {...register("resalePrice", { required: "Resale price is required" })} className="input input-bordered w-full max-w-xs" />
-                    {errors.resalePrice && <p className='text-red-600'>{errors.resalePrice.message}</p>}
-                </div>
-
-                {/* Original price */}
-                <div className="form-control w-full max-w-xs">
-                    <label className="label"> <span className="label-text">Original price in $</span></label>
-                    <input type="number" {...register("originalPrice", { required: "Original price is required" })} className="input input-bordered w-full max-w-xs" />
-                    {errors.originalPrice && <p className='text-red-600'>{errors.originalPrice.message}</p>}
-                </div>
-
-                {/* Used Years */}
-                <div className="form-control w-full max-w-xs">
-                    <label className="label"> <span className="label-text">Used year/s in $</span></label>
-                    <input type="number" {...register("originalPrice", { required: "Used year/s is required" })} className="input input-bordered w-full max-w-xs" />
-                    {errors.usedYears && <p className='text-red-600'>{errors.usedYears.message}</p>}
-                </div>
-
-                {/* purchase Year */}
-                <div className="form-control w-full max-w-xs">
-                    <label className="label"> <span className="label-text">Purchase Year</span></label>
-                    <input type="text" {...register("purchaseYear", { required: "purchase Year is required" })} className="input input-bordered w-full max-w-xs" />
-                    {errors.purchaseYear && <p className='text-red-600'>{errors.purchaseYear.message}</p>}
-                </div>
-
-                {/* product condition*/}
-                <div className="form-control w-full max-w-xs">
-                    <label className="label"> <span className="label-text">Select Your Vehicle Condition</span></label>
-                    <select {...register('productCondition')} className="select select-bordered w-full max-w-xs">
-                        <option value="Toyota">Fair</option>
-                        <option value="Nissan">Good</option>
-                        <option value="Honda">Excellent</option>
-                    </select>
-                </div>
-
-
-                {/* mobile number */}
-                <div className="form-control w-full max-w-xs">
-                    <label className="label"> <span className="label-text">Mobile Number</span></label>
-                    <input type="number" {...register("mobileNumber", { required: "mobile number is required" })} className="input input-bordered w-full max-w-xs" />
-                    {errors.mobileNumber && <p className='text-red-600'>{errors.mobileNumber.message}</p>}
-                </div>
-
-                {/* description*/}
-                <div className="form-control w-full max-w-xs">
-                    <label className="label"> <span className="label-text">Product Description</span></label>
-
-                    {/* <textarea className="textarea textarea-accent" placeholder="Decription"></textarea> */}
-
-                    <textarea type="text" {...register("description", { required: "description is required" })} className="input input-bordered w-full max-w-xs h-32" />
-                    {errors.description && <p className='text-red-600'>{errors.description.message}</p>}
-                </div>
-
-                {/* vehicle model */}
-                <div className="form-control w-full max-w-xs">
-                    <label className="label"> <span className="label-text">Model</span></label>
-                    <input type="number" {...register("model", { required: "mobile number is required" })} className="input input-bordered w-full max-w-xs" />
-                    {errors.model && <p className='text-red-600'>{errors.model.message}</p>}
-                </div>
-
-                <input type="submit" className='btn btn-accent mt-6 ml-[25%]' value="Submit" />
-            </form>
+                    {/* series */}
+                    <div className="form-control w-full max-w-xs">
+                        <label className="label"> <span className="label-text font-bold text-green-600">Vehicle Series</span></label>
+                        <input type="text" {...register("series", { required: "series is required" })} placeholder='Ex. Premio' className="input input-bordered w-full max-w-xs" />
+                        {errors.series && <p className='text-red-600'>{errors.series.message}</p>}
+                    </div>
 
 
 
+                    {/* picture upload */}
+                    <div className="form-control w-full max-w-xs">
+                        <label className="label"> <span className="label-text font-bold text-green-600">Picture</span></label>
+                        <input type="file" {...register("picture", { required: "picture is Required" })} className="input w-full max-w-xs" />
 
-            {/* <form onSubmit={handleAddProduct} className='grid grid-cols-1 gap-3 mt-10'>
+                        {errors.picture && <p className='text-red-600'>{errors.picture.message}</p>}
+                    </div>
 
-                <p className='ml-5 text-green-600 font-bold'>Category</p>
-                <select name='categoryName' className="select select-bordered w-full max-w-xs">
-                    <option value="Toyota">Toyota</option>
-                    <option value="Nissan">Nissan</option>
-                    <option value="Honda">Honda</option>
-                </select>
+                    {/* location */}
+                    <div className="form-control w-full max-w-xs">
+                        <label className="label"> <span className="label-text font-bold text-green-600">Location</span></label>
+                        <input type="text" {...register("location", { required: "Location name is required" })} className="input input-bordered w-full max-w-xs" />
+                        {errors.location && <p className='text-red-600'>{errors.location.message}</p>}
+                    </div>
 
-                <p className='ml-5 text-green-600 font-bold'>Name</p>
-                <input name="sellersName" type="text" defaultValue={user?.displayName} disabled placeholder="Your name" className="input w-full input-bordered" />
+                    {/* resale price */}
+                    <div className="form-control w-full max-w-xs">
+                        <label className="label"> <span className="label-text font-bold text-green-600">Resale price in $</span></label>
+                        <input type="number" {...register("resalePrice", { required: "Resale price is required" })} className="input input-bordered w-full max-w-xs" />
+                        {errors.resalePrice && <p className='text-red-600'>{errors.resalePrice.message}</p>}
+                    </div>
 
-                <p className='ml-5 text-green-600 mt-3 font-bold'>Email</p>
-                <input name="email" type="email" defaultValue={user?.email} disabled placeholder="Email address" className="input w-full input-bordered" />
+                    {/* Original price */}
+                    <div className="form-control w-full max-w-xs">
+                        <label className="label"> <span className="label-text font-bold text-green-600">Original price in $</span></label>
+                        <input type="number" {...register("originalPrice", { required: "Original price is required" })} className="input input-bordered w-full max-w-xs" />
+                        {errors.originalPrice && <p className='text-red-600'>{errors.originalPrice.message}</p>}
+                    </div>
+
+                    {/* Used Years */}
+                    <div className="form-control w-full max-w-xs">
+                        <label className="label"> <span className="label-text font-bold text-green-600">Used year/s in $</span></label>
+                        <input type="number" {...register("usedYears", { required: "Used year/s is required" })} className="input input-bordered w-full max-w-xs" />
+                        {errors.usedYears && <p className='text-red-600'>{errors.usedYears.message}</p>}
+                    </div>
+
+                    {/* purchase Year */}
+                    <div className="form-control w-full max-w-xs">
+                        <label className="label"> <span className="label-text font-bold text-green-600">Purchase Year</span></label>
+                        <input type="number" {...register("purchaseYear", { required: "purchase Year is required" })} className="input input-bordered w-full max-w-xs" />
+                        {errors.purchaseYear && <p className='text-red-600'>{errors.purchaseYear.message}</p>}
+                    </div>
+
+                    {/* product condition*/}
+                    <div className="form-control w-full max-w-xs">
+                        <label className="label"> <span className="label-text font-bold text-green-600">Select Your Vehicle Condition</span></label>
+                        <select {...register('productCondition')} className="select select-bordered w-full max-w-xs">
+                            <option value="Toyota">Fair</option>
+                            <option value="Nissan">Good</option>
+                            <option value="Honda">Excellent</option>
+                        </select>
+                    </div>
 
 
-                <p className='ml-5 text-green-600 mt-3 font-bold'>Vehicle Series</p>
-                <input name="series" type="text" disabled className="input w-full input-bordered" required />
+                    {/* mobile number */}
+                    <div className="form-control w-full max-w-xs">
+                        <label className="label"> <span className="label-text font-bold text-green-600">Mobile Number</span></label>
+                        <input type="number" {...register("mobileNumber", { required: "mobile number is required" })} className="input input-bordered w-full max-w-xs" />
+                        {errors.mobileNumber && <p className='text-red-600'>{errors.mobileNumber.message}</p>}
+                    </div>
 
-                Pic  
-                <p className='ml-5 text-green-600 mt-3 font-bold'>Upload Your Vehicle Image</p>
-                <input name="picture" type="file" className="input w-full max-w-xs" required />
+                    {/* description*/}
+                    <div className="form-control w-full max-w-xs">
+                        <label className="label"> <span className="label-text font-bold text-green-600">Product Description</span></label>
+                        <textarea type="text" {...register("description", { required: "description is required" })} className="input input-bordered w-full max-w-xs h-32" />
+                        {errors.description && <p className='text-red-600'>{errors.description.message}</p>}
+                    </div>
 
-                <p className='ml-5 text-green-600 mt-3 font-bold'>Seller's Location</p>
-                <input name="location" type="text" className="input w-full input-bordered" required />
+                    {/* vehicle model */}
+                    <div className="form-control w-full max-w-xs">
+                        <label className="label"> <span className="label-text font-bold text-green-600">Model</span></label>
+                        <input type="number" {...register("model", { required: "mobile number is required" })} className="input input-bordered w-full max-w-xs" />
+                        {errors.model && <p className='text-red-600'>{errors.model.message}</p>}
+                    </div>
 
-                <p className='ml-5 text-green-600 mt-3 font-bold'>Resale Price in $</p>
-                <input name="resalePrice" type="text" placeholder="Resale Price" className="input w-full input-bordered" required />
-
-                <p className='ml-5 text-green-600 mt-3 font-bold'>Original Price in $</p>
-                <input name="originalPrice" type="number" placeholder="Original Price" className="input w-full input-bordered" required />
-
-                <p className='ml-5 text-green-600 mt-3 font-bold'>Used year/s</p>
-                <input name="usedYears" type="number" className="input w-full input-bordered" required />
-
-                <p className='ml-5 text-green-600 mt-3 font-bold'>Purchase Year</p>
-                <input name="purchaseYear" type="number" className="input w-full input-bordered" required />
-
-                <p className='ml-5 text-green-600 mt-3 font-bold'>Select Your Product Condition</p>
-                <select name='productCondition' className="select select-bordered w-full max-w-xs">
-                    <option value="Toyota">Fair</option>
-                    <option value="Nissan">Good</option>
-                    <option value="Honda">Excellent</option>
-                </select>
-
-                <p className='ml-5 text-green-600 mt-3 font-bold'>Mobile Number</p>
-                <input name="mobileNumber" type="number" placeholder='Your mobile number' className="input w-full input-bordered" required />
-
-                <p className='ml-5 text-green-600 mt-3 font-bold'>Model</p>
-                <input name="model" type="number" placeholder='Your mobile number' className="input w-full input-bordered" required />
-
-                <br />
-                <input className='btn btn-accent w-1/2 ml-[25%]' type="submit" value="Book" />
-            </form> */}
-        </div >
+                    <input type="submit" className='btn btn-accent mt-6 ml-[25%]' value="Submit" />
+                </form>
+            </div >
+        </div>
     );
 };
 

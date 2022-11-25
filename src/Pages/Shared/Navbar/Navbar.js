@@ -40,7 +40,7 @@ const Navbar = () => {
             </div>
             <div className="navbar-end">
                 {
-                    user?.uid ? <Link to='/login'><button onClick={handleLogOut} className='btn btn-success py-1'>Sign out</button></Link> :
+                    user?.uid ? <Link to='/login'><button onClick={handleLogOut} className='btn btn-sm btn-success py-1'>Sign out</button></Link> :
                         <Link to='/login'><button className='btn btn-success py-1'>Log in</button></Link>
                 }
                 {/* <a className="btn">Get started</a> */}

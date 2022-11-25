@@ -1,7 +1,7 @@
 import React from 'react';
 
 const CategoryDetail = ({ product, setModalProduct }) => {
-    const { categoryName, sellersName, series, picture, location, originalPrice, resalePrice, usedYears, model, purchaseYear, productCondition, mobileNumber, description } = product;
+    const { categoryName, sellersName, series, picture, location, originalPrice, resalePrice, usedYears, model, purchaseYear, productCondition, mobileNumber, description, postingDate } = product;
 
     return (
         <div className="card lg:w-[500px] bg-base-200 shadow-xl">
@@ -20,6 +20,7 @@ const CategoryDetail = ({ product, setModalProduct }) => {
                 <p><span className='font-bold'>Purchase Year: </span>{purchaseYear}</p>
                 <p><span className='font-bold'>Location: </span>{location}</p>
                 <p><span className='font-bold'>Product Condition: </span>{productCondition}</p>
+                <p><span className='font-bold'>Posted </span>{postingDate}</p>
                 <div className="card-actions justify-center mt-4">
                     {/* <label disabled={slots.length === 0} onClick={() => setTreatment(appointmentOption)} htmlFor="booking-modal" className="btn btn-primary text-white">Book Appointment</label> */}
 

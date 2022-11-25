@@ -12,8 +12,8 @@ const CategoryDetails = () => {
     console.log(products);
 
     return (
-        <section>
-            <div className='flex flex-col lg:flex-row justify-evenly my-16'>
+        <section className='mt-16'>
+            <div className='grid grid-cols-1 lg:grid-cols-2 gap-10'>
                 {
                     products.map(product => <CategoryDetail key={product._id} product={product} setModalProduct={setModalProduct}></CategoryDetail>)
                 }
