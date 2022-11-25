@@ -17,11 +17,12 @@ const BookingModal = ({ modalProduct, setModalProduct }) => {
         const price = form.price.value;
         const phone = form.phone.value;
         const meetingLocation = form.meetingLocation.value;
+        const picture = form.picture.value;
 
         console.log(buyerName, email, brand, series, price, phone, meetingLocation);
 
         const booking = {
-            buyerName, email, brand, series, price, phone, meetingLocation
+            buyerName, email, brand, series, price, phone, meetingLocation, picture
         }
 
         // save booking info to db
@@ -53,6 +54,7 @@ const BookingModal = ({ modalProduct, setModalProduct }) => {
                     <h3 className="text-lg font-bold">Fill up the form</h3>
                     <form onSubmit={handleBooking} className='grid grid-cols-1 gap-3 mt-10'>
                         {/* <input type="text" value={date} disabled className="input w-full input-bordered" /> */}
+
                         <p className='ml-5 text-green-600'>Name</p>
                         <input name="name" type="text" defaultValue={user?.displayName} disabled placeholder="Your name" className="input w-full input-bordered" />
 
@@ -74,6 +76,9 @@ const BookingModal = ({ modalProduct, setModalProduct }) => {
 
                         <p className='ml-5 text-green-500 mt-3'>Meeting Location</p>
                         <input name="meetingLocation" type="text" placeholder='Where do you want to meet' required className="input w-full input-bordered" />
+
+                        {/* img url  */}
+                        <input name="picture" type="text" hidden defaultValue={picture} className="input w-full input-bordered" />
 
                         <br />
                         <input className='btn btn-accent w-1/2 ml-[25%]' type="submit" value="Book" />

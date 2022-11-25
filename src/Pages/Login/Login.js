@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../contexts/AuthProvider';
+import GoogleSignUp from '../SignUp/GoogleSignUp';
 
 const Login = () => {
     const { register, formState: { errors }, handleSubmit } = useForm();
@@ -62,7 +63,8 @@ const Login = () => {
                 </form>
                 <p>New to Budget Wheels? <Link className='text-green-600' to="/signup">Create new account</Link></p>
                 <div className='divider'>OR</div>
-                <button className='btn btn-outline w-full'>Continue with GOOGLE</button>
+                {/* <button className='btn btn-outline w-full'>Continue with GOOGLE</button> */}
+                <GoogleSignUp></GoogleSignUp>
             </div>
         </div>
     );
