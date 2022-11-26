@@ -13,7 +13,7 @@ const AllBuyers = () => {
         queryFn: async () => {
             const res = await fetch(url)
             const data = await res.json();
-            console.log(data);
+            // console.log(data);
             return data;
         }
     })
@@ -25,7 +25,7 @@ const AllBuyers = () => {
         })
             .then(res => res.json())
             .then(data => {
-                console.log(data);
+                // console.log(data);
                 if (data.deletedCount > 0) {
                     toast.success(`${buyer.name} deleted successfully!`)
                     refetch();

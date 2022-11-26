@@ -15,23 +15,24 @@ const MyAdvertisedProducts = () => {
         queryKey: ['advertise', user?.email],
         queryFn: async () => {
             const res = await fetch(url)
-            const data = res.json();
+            const data = await res.json();
             return data;
         }
     })
 
     // delete advertised product
     const handleAdvertisedProduct = (advertisedProduct) => {
+        console.log(advertisedProduct._id);
         fetch(`http://localhost:5000/advertise/${advertisedProduct._id}`, {
             method: 'DELETE',
         })
             .then(res => res.json())
             .then(data => {
                 console.log(data);
-                // if (data.deletedCount > 0) {
-                //     toast.success(`${advertisedProduct.brandName} ${advertisedProduct.series} deleted successfully!`)
-                //     refetch();
-                // }
+                if (data.deletedCount > 0) {
+                    toast.success(`${advertisedProduct.brandName} deleted successfully!`)
+                    refetch();
+                }
             })
     }
     /* 
