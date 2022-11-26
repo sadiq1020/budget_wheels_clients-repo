@@ -107,17 +107,12 @@ const MyProducts = () => {
                                         <td>
                                             <Link to=''><button onClick={() => handleDeleteProduct(product)} className='btn btn-danger btn-sm'>Delete</button></Link>
                                         </td>
-                                        {
-                                            advertiseStatus ?
-                                                <td>
-                                                    <Link to=''><button disabled className='btn btn-success btn-sm'>Advertised</button></Link>
-                                                </td>
-                                                :
-                                                <td>
-                                                    <Link to=''><button onClick={() => handleAdvertise(product)} className='btn btn-success btn-sm'>Advertise</button></Link>
-                                                </td>
-                                        }
-
+                                        <td>
+                                            {
+                                                !advertiseStatus &&
+                                                <Link to=''><button onClick={() => handleAdvertise(product)} className='btn btn-success btn-sm'>Advertise</button></Link>
+                                            }
+                                        </td>
                                     </tr>)
                             }
                         </tbody>
