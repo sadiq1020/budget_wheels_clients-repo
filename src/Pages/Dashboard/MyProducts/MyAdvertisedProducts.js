@@ -7,9 +7,9 @@ import Loading from '../../Shared/Loading/Loading';
 
 const MyAdvertisedProducts = () => {
     const { user } = useContext(AuthContext);
-
+    console.log(user.email);
     // load advertised products for my products (sellers) page
-    const url = `http://localhost:5000/advertise?email=${user?.email}`;
+    const url = `http://localhost:5000/myadvertise?email=${user?.email}`;
 
     const { data: advertisedProducts, refetch, isLoading } = useQuery({
         queryKey: ['advertise', user?.email],
