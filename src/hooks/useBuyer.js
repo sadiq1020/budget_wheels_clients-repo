@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 
 const useBuyer = email => {
     const [isBuyer, setIsBuyer] = useState(false);
+    const [isBuyerLoading, setIsBuyerLoading] = useState(true);
 
     useEffect(() => {
         if (email) {
@@ -9,11 +10,12 @@ const useBuyer = email => {
                 .then(res => res.json())
                 .then(data => {
                     console.log(data);
-                    setIsBuyer(data.isBuyer)
+                    setIsBuyer(data.isBuyer);
+                    setIsBuyerLoading(false);
                 })
         }
     }, [email])
-    return [isBuyer]
+    return [isBuyer, isBuyerLoading]
 }
 
 export default useBuyer;
