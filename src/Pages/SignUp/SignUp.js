@@ -33,7 +33,6 @@ const SignUp = () => {
                 updateUser(userInfo)
                     .then(() => {
                         saveUser(data.name, data.email, data.role)
-                        navigate(from, { replace: true })
                     })
                     .catch(error => console.error(error))
             })
@@ -55,11 +54,21 @@ const SignUp = () => {
         })
             .then(res => res.json())
             .then(data => {
-                console.log(data);
+                getUserToken(email);
             })
     }
 
-
+    // get user jwt token
+    const getUserToken = email => {
+        fetch(`http://localhost:5000/jwt?email=${email}`)
+            .then(res => res.json())
+            .then(data => {
+                if (data.accessToken) {
+                    localStorage.setItem('accessToken', data.accessToken);
+                    navigate(from, { replace: true })
+                }
+            })
+    }
 
     return (
         <div className='h-[800px] flex justify-center items-center'>
