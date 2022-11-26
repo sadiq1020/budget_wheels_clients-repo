@@ -12,10 +12,10 @@ const AdvertisedItem = ({ advertisedProduct }) => {
                 </h2>
                 <h4 className='text-2xl'>{series}</h4>
                 <p>$ {price}</p>
-                <div className="card-actions justify-end">
+                {/* <div className="card-actions justify-end">
                     <div className="badge badge-outline">Fashion</div>
                     <div className="badge badge-outline">Products</div>
-                </div>
+                </div> */}
             </div>
         </div>
     );

@@ -63,14 +63,18 @@ const AddProduct = () => {
                         method: 'POST',
                         headers: {
                             'content-type': 'application/json',
+                            authorization: `bearer ${localStorage.getItem('accessToken')}`
                         },
                         body: JSON.stringify(product)
                     })
                         .then(res => res.json())
                         .then(result => {
                             console.log(result);
-                            toast.success('Successfully Added');
-                            navigate('/dashboard/myproducts')
+                            if (result.acknowledged) {
+                                navigate('/dashboard/myproducts')
+                                toast.success('Successfully Added');
+                            }
+                            toast.error('Buyer can not add product')
                         })
                 }
             })

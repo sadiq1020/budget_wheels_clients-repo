@@ -25,6 +25,9 @@ const MyProducts = () => {
     const handleDeleteProduct = (product) => {
         fetch(`http://localhost:5000/myproducts/${product._id}`, {
             method: 'DELETE',
+            headers: {
+                authorization: `bearer ${localStorage.getItem('accessToken')}`
+            }
         })
             .then(res => res.json())
             .then(data => {
@@ -59,6 +62,7 @@ const MyProducts = () => {
             method: 'POST',
             headers: {
                 'content-type': 'application/json',
+                authorization: `bearer ${localStorage.getItem('accessToken')}`
             },
             body: JSON.stringify(advertisedProduct)
         })
