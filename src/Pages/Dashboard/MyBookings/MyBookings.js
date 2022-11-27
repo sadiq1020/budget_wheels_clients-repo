@@ -46,7 +46,13 @@ const MyBookings = () => {
                                     <td>{booking.brand} {booking.series}</td>
                                     <td>{booking.price}</td>
                                     <td>
-                                        <Link to=''><button className='btn btn-primary'>Pay</button></Link>
+                                        {
+                                            !booking?.paid ?
+                                                <Link to={`/dashboard/payment/${booking._id}`}><button className='btn btn-primary btn-sm'>Pay</button></Link>
+                                                :
+                                                <button className='btn btn-primary'>Paid</button>
+                                        }
+
                                     </td>
                                 </tr>)
                         }

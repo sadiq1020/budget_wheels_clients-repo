@@ -31,12 +31,11 @@ const AddProduct = () => {
 
                     //--------Date/time----------------
                     const currentdate = new Date();
-                    const datetime = "Date:" + currentdate.getDate() + "/"
+                    const datetime = "Date: " + currentdate.getDate() + "/"
                         + (currentdate.getMonth() + 1) + "/"
-                        + currentdate.getFullYear() + " time:"
+                        + currentdate.getFullYear() + " time: "
                         + currentdate.getHours() + ":"
-                        + currentdate.getMinutes() + ":"
-                        + currentdate.getSeconds();
+                        + currentdate.getMinutes();
                     //----------------------------------
 
                     const product = {

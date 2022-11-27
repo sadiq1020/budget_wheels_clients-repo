@@ -4,12 +4,12 @@ import toast from 'react-hot-toast';
 import { Link } from 'react-router-dom';
 import Loading from '../../Shared/Loading/Loading';
 
-const AllBuyers = () => {
+const ReportedProducts = () => {
 
-    // get all buyers
-    const url = 'http://localhost:5000/users/buyers';
+    // get all reported products
+    const url = 'http://localhost:5000/products/reportedproducts';
 
-    const { data: buyers = [], refetch, isLoading } = useQuery({
+    const { data: reportedProducts = [], refetch, isLoading } = useQuery({
         queryKey: ['users/buyers'],
         queryFn: async () => {
             const res = await fetch(url)
@@ -19,9 +19,9 @@ const AllBuyers = () => {
         }
     })
 
-    // delete buyer
-    const handleDeleteBuyer = (buyer) => {
-        fetch(`http://localhost:5000/users/buyers/${buyer._id}`, {
+    // delete reported product
+    const handleDeleteProduct = (reportedProduct) => {
+        fetch(`http://localhost:5000/products/delete/${reportedProduct._id}`, {
             method: 'DELETE',
             headers: {
                 authorization: `bearer ${localStorage.getItem('accessToken')}`
@@ -31,7 +31,7 @@ const AllBuyers = () => {
             .then(data => {
                 // console.log(data);
                 if (data.deletedCount > 0) {
-                    toast.success(`${buyer.name} deleted successfully!`)
+                    toast.success(`${reportedProduct.name} deleted successfully!`)
                     refetch();
                 }
             })
@@ -50,21 +50,23 @@ const AllBuyers = () => {
                     <thead>
                         <tr>
                             <th></th>
-                            <th>Buyer Name</th>
-                            <th>Buyer Email</th>
-                            <th>Remove Buyer</th>
+                            <th>Reported Product Name</th>
+                            <th>Vehicle Series</th>
+                            <th>Seller Email</th>
+                            <th>Remove Product</th>
                         </tr>
                     </thead>
                     <tbody>
                         {/* <!-- row --> */}
                         {
-                            buyers.map((buyer, i) =>
-                                <tr key={buyer._id}>
+                            reportedProducts.map((reportedProduct, i) =>
+                                <tr key={reportedProduct._id}>
                                     <th>{i + 1}</th>
-                                    <td>{buyer.name}</td>
-                                    <td>{buyer.email}</td>
+                                    <td>{reportedProduct.categoryName}</td>
+                                    <td>{reportedProduct.series}</td>
+                                    <td>{reportedProduct.email}</td>
                                     <td>
-                                        <Link to=''><button onClick={() => handleDeleteBuyer(buyer)} className='btn btn-danger btn-sm'>Delete</button></Link>
+                                        <Link to=''><button onClick={() => handleDeleteProduct(reportedProduct)} className='btn btn-danger btn-sm'>Delete</button></Link>
                                     </td>
                                 </tr>)
                         }
@@ -75,4 +77,4 @@ const AllBuyers = () => {
     );
 };
 
-export default AllBuyers;
+export default ReportedProducts;
