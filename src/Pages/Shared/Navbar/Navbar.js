@@ -13,15 +13,15 @@ const Navbar = () => {
 
     const menuItems =
         <>
-            <li><Link to='/'>Home</Link></li>
-            <li><Link to='/blog'>BLog</Link></li>
+            <li className='font-medium'><Link to='/'>Home</Link></li>
+            <li className='font-medium'><Link to='/blog'>Blog</Link></li>
             {
-                user?.uid && <li><Link to='/dashboard'>Dashboard</Link></li>
+                user?.uid && <li className='font-medium'><Link to='/dashboard'>Dashboard</Link></li>
             }
         </>
 
     return (
-        <div className="navbar bg-base-300">
+        <div className="navbar bg-green-200 rounded-b-xl">
             <div className="navbar-start">
                 <div className="dropdown">
                     <label tabIndex={0} className="btn btn-ghost lg:hidden">
@@ -31,7 +31,8 @@ const Navbar = () => {
                         {menuItems}
                     </ul>
                 </div>
-                <Link to='/' className="btn btn-ghost normal-case text-xl">Budget Wheels</Link>
+                <img className='hidden lg:block w-16 ml-3' src="https://iili.io/HKVP7x2.png" alt="" />
+                <Link to='/' className="btn btn-ghost normal-case text-xl">Budget<span className='text-sm ml-1 mt-1 lg:text-lg lg:mt-0'>Wheels</span></Link>
             </div>
             <div className="navbar-center hidden lg:flex">
                 <ul className="menu menu-horizontal p-0">
@@ -41,8 +42,8 @@ const Navbar = () => {
             <div className="navbar-end">
                 {
                     user?.uid ?
-                        <>  <p className='mr-2'>{user.displayName}</p>
-                            <Link to='/login'><button onClick={handleLogOut} className='btn btn-sm btn-success py-1'>Sign out</button></Link>
+                        <>  <p className='mr-3 hidden lg:block text-green-600 font-semibold'>{user.displayName}</p>
+                            <Link to='/login'><button onClick={handleLogOut} className='btn btn-sm btn-success py-1 mr-3'>Sign out</button></Link>
                         </>
                         :
                         <Link to='/login'><button className='btn btn-success py-1'>Log in</button></Link>

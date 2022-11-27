@@ -1,5 +1,6 @@
 import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
 import React, { useState, useEffect } from 'react';
+import { toast } from 'react-hot-toast'
 
 const CheckoutForm = ({ booking }) => {
     const [cardError, setCardError] = useState('');
@@ -10,7 +11,7 @@ const CheckoutForm = ({ booking }) => {
 
     const [processing, setProcessing] = useState(false);
 
-    const { price, buyerName, email } = booking;
+    const { price, buyerName, email, _id } = booking;
 
     const stripe = useStripe();
     const elements = useElements();
@@ -78,10 +79,31 @@ const CheckoutForm = ({ booking }) => {
         }
 
         if (paymentIntent.status === "succeeded") {
-            setSuccess('Congratulation! Payment Successful')
-            setTransactionId(paymentIntent.id)
 
-            // save payment info in db
+            const payment = {
+                buyerName,
+                email,
+                price,
+                transactionId: paymentIntent.id,
+                bookingId: _id
+            }
+
+            // save/post payment info in payments collection (db)
+            fetch('http://localhost:5000/payments', {
+                method: 'POST',
+                headers: {
+                    'content-type': 'application/json',
+                    authorization: `bearer ${localStorage.getItem('AccessToken')}`
+                },
+                body: JSON.stringify(payment)
+            })
+                .then(res => res.json())
+                .then(data => {
+                    console.log(data);
+                    setSuccess('Congratulation! Payment Successful')
+                    toast.success('Payment Successful!')
+                    setTransactionId(paymentIntent.id)
+                })
 
         }
         setProcessing(false);

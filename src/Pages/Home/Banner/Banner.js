@@ -2,7 +2,7 @@ import React from 'react';
 
 const Banner = () => {
     return (
-        <div className='grid grid-cols-1 lg:grid-cols-2 '>
+        <div className='grid grid-cols-1 lg:grid-cols-2 mt-14'>
             <div>
                 <div className="carousel w-full">
                     <div id="slide1" className="carousel-item relative w-full">

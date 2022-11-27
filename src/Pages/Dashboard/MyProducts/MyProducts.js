@@ -77,7 +77,7 @@ const MyProducts = () => {
                                 <th>Brand</th>
                                 <th>Series</th>
                                 <th>Remove Item</th>
-                                <th>Advertise</th>
+                                <th>Advertisement</th>
                                 {/* <th>Payment Status</th> */}
                             </tr>
                         </thead>
