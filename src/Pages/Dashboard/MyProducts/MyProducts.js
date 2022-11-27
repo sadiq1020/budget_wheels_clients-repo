@@ -1,14 +1,12 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { AuthContext } from '../../../contexts/AuthProvider';
 import { Link } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import Loading from '../../Shared/Loading/Loading';
-import MyAdvertisedProducts from './MyAdvertisedProducts';
 
 const MyProducts = () => {
     const { user } = useContext(AuthContext)
-    const [advertiseStatus, setAdvertiseStatus] = useState(false)
 
     const url = `http://localhost:5000/myproducts?email=${user?.email}`;
 
@@ -38,41 +36,25 @@ const MyProducts = () => {
                 }
             })
 
-        // delete from advertise db
-        // fetch(`http://localhost:5000/advertise/${product._id}`, {
-        //     method: 'DELETE',
-        // })
-        //     .then(res => res.json())
-        //     .then(data => {
-        //         // console.log(data);
-        //     })
     }
 
     // advertise product
     const handleAdvertise = (product) => {
-        const advertisedProduct = {
-            email: user.email,
-            brandName: product.categoryName,
-            series: product.series,
-            image: product.picture,
-            price: product.resalePrice
-        }
 
-        fetch('http://localhost:5000/advertise', {
-            method: 'POST',
+        // add product as "advertised" in products collection
+        fetch(`http://localhost:5000/products/${product._id}`, {
+            method: 'PUT',
             headers: {
-                'content-type': 'application/json',
                 authorization: `bearer ${localStorage.getItem('accessToken')}`
-            },
-            body: JSON.stringify(advertisedProduct)
+            }
         })
             .then(res => res.json())
-            .then(result => {
-                console.log(result);
-                if (result.acknowledged) {
-                    setAdvertiseStatus(true);
+            .then(data => {
+                console.log(data);
+                if (data.acknowledged) {
+                    toast.success('Product successfully advertised')
+                    refetch();
                 }
-                toast.success('Successfully Added for advertisement');
             })
     }
 
@@ -113,8 +95,10 @@ const MyProducts = () => {
                                         </td>
                                         <td>
                                             {
-                                                !advertiseStatus &&
-                                                <Link to=''><button onClick={() => handleAdvertise(product)} className='btn btn-success btn-sm'>Advertise</button></Link>
+                                                product.isAdvertised ?
+                                                    <button disabled className='btn btn-success btn-sm'>Advertised</button>
+                                                    :
+                                                    <button onClick={() => handleAdvertise(product)} className='btn btn-success btn-sm'>Advertise</button>
                                             }
                                         </td>
                                     </tr>)
@@ -123,7 +107,6 @@ const MyProducts = () => {
                     </table>
                 </div>
             </div>
-            <MyAdvertisedProducts></MyAdvertisedProducts>
         </div>
     );
 };

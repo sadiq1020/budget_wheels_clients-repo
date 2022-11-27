@@ -74,7 +74,6 @@ const AddProduct = () => {
                                 navigate('/dashboard/myproducts')
                                 toast.success('Successfully Added');
                             }
-                            toast.error('Buyer can not add product')
                         })
                 }
             })

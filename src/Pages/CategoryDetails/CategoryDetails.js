@@ -6,10 +6,7 @@ import CategoryDetail from './CategoryDetail';
 const CategoryDetails = () => {
     const products = useLoaderData();
     const [modalProduct, setModalProduct] = useState(null);
-
-
-
-    console.log(products);
+    // console.log(products);
 
     return (
         <section className='mt-16'>

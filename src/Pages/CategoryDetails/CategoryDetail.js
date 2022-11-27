@@ -1,7 +1,9 @@
 import React from 'react';
+import { TiTick } from 'react-icons/ti'
 
 const CategoryDetail = ({ product, setModalProduct }) => {
     const { categoryName, sellersName, series, picture, location, originalPrice, resalePrice, usedYears, model, purchaseYear, productCondition, mobileNumber, description, postingDate } = product;
+    // console.log(status);
 
     return (
         <div className="card lg:w-[500px] bg-base-200 shadow-xl">
@@ -10,7 +12,18 @@ const CategoryDetail = ({ product, setModalProduct }) => {
                 <h2 className="card-title">Brand Name: {categoryName}</h2>
                 <h2 className="text-2xl">Series: {series}</h2>
                 <p>{description}</p>
-                <p><span className='font-bold'>Seller Name:</span> {sellersName}</p>
+                {
+                    product?.status ?
+                        <div className="indicator">
+                            <span className="indicator-item badge badge-sm bg-white text-lg text-blue-500"><TiTick /></span>
+                            <div className="grid place-items-center">
+                                <p><span className='font-bold'>Seller Name:</span> {sellersName}</p>
+                            </div>
+                        </div>
+                        :
+                        <p><span className='font-bold'>Seller Name:</span> {sellersName}</p>
+                }
+
                 <p><span className='font-bold'>Mobile Number:</span> {mobileNumber}</p>
                 <p><span className='font-bold'>Series: </span>{series}</p>
                 <p><span className='font-bold'>Model: </span>{model}</p>

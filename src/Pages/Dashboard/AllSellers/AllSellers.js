@@ -17,7 +17,7 @@ const AllSellers = () => {
         }
     })
 
-    // delete buyer
+    // delete seller
     const handleDeleteSeller = (seller) => {
         fetch(`http://localhost:5000/users/sellers/${seller._id}`, {
             method: 'DELETE',
@@ -35,6 +35,31 @@ const AllSellers = () => {
             })
     }
 
+    // verify seller
+    const handleVerify = (seller) => {
+        console.log(seller.email);
+        fetch(`http://localhost:5000/products/seller/${seller.email}`, {
+            method: 'PUT'
+        })
+            .then(res => res.json())
+            .then(data => {
+                console.log(data);
+                if (data.acknowledged) {
+                    toast.success('Seller is now verified')
+                }
+            })
+
+        // changing status in seller db just for button conditional rendering
+        fetch(`http://localhost:5000/users/sellers/${seller._id}`, {
+            method: 'PUT'
+        })
+            .then(res => res.json())
+            .then(data => {
+                console.log(data);
+                refetch();
+            })
+
+    }
     return (
         <div>
             <div className='mt-16'>
@@ -48,6 +73,7 @@ const AllSellers = () => {
                                 <th>Seller Name</th>
                                 <th>Seller Email</th>
                                 <th>Remove Buyer</th>
+                                <th>Verify Seller</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -59,7 +85,15 @@ const AllSellers = () => {
                                         <td>{seller.name}</td>
                                         <td>{seller.email}</td>
                                         <td>
-                                            <Link to=''><button onClick={() => handleDeleteSeller(seller)} className='btn btn-danger btn-sm'>Delete</button></Link>
+                                            <button onClick={() => handleDeleteSeller(seller)} className='btn btn-danger btn-sm'>Delete</button>
+                                        </td>
+                                        <td>
+                                            {
+                                                seller?.status === 'Verified' ?
+                                                    <button disabled className='btn btn-success btn-sm'>Verified</button>
+                                                    :
+                                                    <button onClick={() => handleVerify(seller)} className='btn btn-secondary btn-sm'>Verify</button>
+                                            }
                                         </td>
                                     </tr>)
                             }

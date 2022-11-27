@@ -5,8 +5,16 @@ import AdvertisedItem from './AdvertisedItem';
 const AdvertisedItems = () => {
     const [advertisedProducts, setAdvertisedProducts] = useState([])
 
+    // useEffect(() => {
+    //     axios.get('http://localhost:5000/advertise')
+    //         .then(data => {
+    //             console.log(data.data);
+    //             setAdvertisedProducts(data.data)
+    //         })
+    // }, [])
+
     useEffect(() => {
-        axios.get('http://localhost:5000/advertise')
+        axios.get('http://localhost:5000/advertisedproducts')
             .then(data => {
                 console.log(data.data);
                 setAdvertisedProducts(data.data)
@@ -19,7 +27,7 @@ const AdvertisedItems = () => {
             <p className='text-center font-mono mt-3 text-green-600'>Don't worry! We have collections just for you</p>
             <div className='my-14 grid grid-cols-1 lg:grid-cols-2 gap-48'>
                 {
-                    advertisedProducts.map(advertisedProduct => <AdvertisedItem key={advertisedProduct._Id} advertisedProduct={advertisedProduct}></AdvertisedItem>)
+                    advertisedProducts.map(advertisedProduct => <AdvertisedItem key={advertisedProduct._id} advertisedProduct={advertisedProduct}></AdvertisedItem>)
                 }
             </div>
         </div>

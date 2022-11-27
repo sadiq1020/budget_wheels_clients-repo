@@ -22,9 +22,9 @@ const DashboardLayout = () => {
                     <Outlet></Outlet>
 
                 </div>
-                <div className="drawer-side">
+                <div className="drawer-side mt-10 rounded-xl">
                     <label htmlFor="dashboard-drawer" className="drawer-overlay"></label>
-                    <ul className="menu p-4 w-80 bg-base-100 text-base-content">
+                    <ul className="menu p-4 w-80 bg-green-200 text-center text-green-600 text-xl">
                         {
                             isAdmin &&
                             <>
