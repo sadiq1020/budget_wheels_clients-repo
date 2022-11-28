@@ -11,7 +11,7 @@ const CheckoutForm = ({ booking }) => {
 
     const [processing, setProcessing] = useState(false);
 
-    const { price, buyerName, email, _id } = booking;
+    const { price, buyerName, email, _id, productId } = booking;
 
     const stripe = useStripe();
     const elements = useElements();
@@ -23,7 +23,7 @@ const CheckoutForm = ({ booking }) => {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                // authorization: `bearer ${localStorage.getItem('accessToken')}`
+                authorization: `bearer ${localStorage.getItem('accessToken')}`
             },
             body: JSON.stringify({ price }),
         })
@@ -85,7 +85,8 @@ const CheckoutForm = ({ booking }) => {
                 email,
                 price,
                 transactionId: paymentIntent.id,
-                bookingId: _id
+                bookingId: _id,
+                productId: productId
             }
 
             // save/post payment info in payments collection (db)

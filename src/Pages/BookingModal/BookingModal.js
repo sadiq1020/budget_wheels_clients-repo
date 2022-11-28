@@ -4,12 +4,13 @@ import toast from 'react-hot-toast';
 
 const BookingModal = ({ modalProduct, setModalProduct }) => {
     const { user } = useContext(AuthContext);
-    const { categoryName, sellersName, series, picture, location, originalPrice, resalePrice, usedYears, model, purchaseYear, productCondition, mobileNumber, description } = modalProduct;
+    const { categoryName, sellersName, series, picture, location, originalPrice, resalePrice, usedYears, model, purchaseYear, productCondition, mobileNumber, description, _id } = modalProduct;
 
     const handleBooking = event => {
         event.preventDefault();
         const form = event.target;
 
+        const productId = form.productId.value;
         const buyerName = form.name.value;
         const email = form.email.value;
         const brand = form.brand.value;
@@ -19,10 +20,10 @@ const BookingModal = ({ modalProduct, setModalProduct }) => {
         const meetingLocation = form.meetingLocation.value;
         const picture = form.picture.value;
 
-        console.log(buyerName, email, brand, series, price, phone, meetingLocation);
+        console.log(buyerName, email, brand, series, price, phone, meetingLocation, productId);
 
         const booking = {
-            buyerName, email, brand, series, price, phone, meetingLocation, picture
+            buyerName, email, brand, series, price, phone, meetingLocation, picture, productId
         }
 
         // save booking info to db
@@ -54,6 +55,9 @@ const BookingModal = ({ modalProduct, setModalProduct }) => {
                     <h3 className="text-lg font-bold">Fill up the form</h3>
                     <form onSubmit={handleBooking} className='grid grid-cols-1 gap-3 mt-10'>
                         {/* <input type="text" value={date} disabled className="input w-full input-bordered" /> */}
+
+                        <p className='ml-5 text-green-600'>Product ID</p>
+                        <input name="productId" type="text" defaultValue={_id} disabled placeholder="Your name" className="input w-full input-bordered" />
 
                         <p className='ml-5 text-green-600'>Name</p>
                         <input name="name" type="text" defaultValue={user?.displayName} disabled placeholder="Your name" className="input w-full input-bordered" />

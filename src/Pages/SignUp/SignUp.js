@@ -66,24 +66,10 @@ const SignUp = () => {
             })
     }
 
-    /* 
-    // get user jwt token
-    const getUserToken = email => {
-        fetch(`http://localhost:5000/jwt?email=${email}`)
-            .then(res => res.json())
-            .then(data => {
-                if (data.accessToken) {
-                    localStorage.setItem('accessToken', data.accessToken);
-
-                }
-            })
-    }
-    */
-
     return (
         <div className='h-[800px] flex justify-center items-center'>
             <div className='w-96 p-8'>
-                <h2 className='text-3xl font-bold text-center'>Sign Up</h2>
+                <h2 className='text-3xl font-bold text-center text-green-500'>Sign Up</h2>
 
                 <form onSubmit={handleSubmit(handleSignUp)}>
                     <div className="form-control w-full max-w-xs">

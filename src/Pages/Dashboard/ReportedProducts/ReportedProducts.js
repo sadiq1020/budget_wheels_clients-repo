@@ -43,7 +43,7 @@ const ReportedProducts = () => {
 
     return (
         <div className='mt-16'>
-            <h3 className='text-center text-3xl text-green-500 my-5'>All Buyers List</h3>
+            <h3 className='text-center text-3xl text-green-500 my-5'>Reported Products List</h3>
             <div className="overflow-x-auto">
                 <table className="table w-[90%] mx-auto">
                     {/* <!-- head --> */}

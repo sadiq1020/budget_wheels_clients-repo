@@ -1,24 +1,32 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../contexts/AuthProvider';
+import useToken from '../../hooks/useToken';
 
 const GoogleSignUp = () => {
     const { googleSignIn } = useContext(AuthContext)
+
+    const [createdUserEmail, setCreatedUserEmail] = useState('')
+    const [token] = useToken(createdUserEmail);
 
     const location = useLocation();
     const navigate = useNavigate();
 
     const from = location.state?.from?.pathname || '/';
 
+    if (token) {
+        navigate(from, { replace: true })
+    }
+
     const handleGoogleSignUp = () => {
         googleSignIn()
             .then(result => {
                 const user = result.user;
-                console.log(user.displayName, user.email);
+                // console.log(user.displayName, user.email);
 
                 saveUser(user.displayName, user.email);
 
-                navigate(from, { replace: true })
+                // navigate(from, { replace: true })
             })
             .catch(err => console.error(err));
     }
@@ -36,7 +44,8 @@ const GoogleSignUp = () => {
         })
             .then(res => res.json())
             .then(data => {
-                console.log(data);
+                // console.log(data);
+                setCreatedUserEmail(email)
             })
     }
 
